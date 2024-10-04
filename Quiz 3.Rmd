@@ -1,0 +1,331 @@
+---
+title: "Quiz 3"
+author: "By Samuel Abrha Gebremariam"
+date: "2024-02-15"
+output: html_document
+---
+```{r message=FALSE, warning=FALSE, results='hide'}
+# Loading important libraries including the library that contains the "BF" dataset
+library(tidyverse)
+library(psych)
+library(bbreg)
+library(plotly)
+```
+
+
+```{r}
+# Calling the "BF" dataset
+data(BF)
+# Getting the documentation of the dataset for better understanding and overview of the dataframe
+??BF
+```
+
+# Overview
+
+As we can see from the documentation, Penrose body fat data set's response variable is the percentage of body fat and covariates represent several physiologic measurements related to 252 men. It is a dataframe with **252** observations, representing rows, and **14** variables, equivalent to the number of columns.
+
+The variables measured are 14, and they are the following:
+
+Bodyfat: percentage of body fat obtained through underwater weighting.
+age: age in years/100.
+weight: weight in lbs/100.
+height: height in inches/100.
+neck: neck circumference in cm/100.
+chest: chest circumference in cm/100.
+abdomen: abdomen circumference in cm/100.
+hip: hip circumference in cm/100.
+thigh: thigh circumference in cm/100.
+knee: knee circumference in cm/100.
+ankle: ankle circumference in cm/100.
+biceps: biceps circumference in cm/100.
+forearm: forearm circumference in cm/100.
+wrist: wrist circumference in cm/100.
+
+```{r}
+# Showing the correlation coefficient of all the variables against "bodyfat"
+# Although this code also shows the "r" of "bodyfat" with itself, I am using it for simplicity
+cor(BF, BF$bodyfat)
+```
+# Age and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$age, BF$bodyfat)
+```
+
+The above outputs show us that age and bodyfat have an r value of **0.2914**. This means that the two variables have a **weak positive correlation**. To illustrate this we can look at the scatterplot below.
+
+```{r}
+plot_ly(x=~BF$age,y=~BF$bodyfat)%>%
+ add_markers()
+```
+
+To look into whether we are getting this correlation value because they are really related or because of other random causes, we should look at the p-value of the correlation. The p-value indicates the likelihood of observing the test results while the null hypothesis is true. When we look at the p-value, they have a p-value of **2.522e-06**. 
+Statistically, this means that there is a probability of **0.000002522** of getting an r value of 0.2914 even if they don't have any correlation. Therefore, by taking 5% as our level of significance, we can say that the correlation is **HIGHLY SIGNIFICANT**.
+
+# Weight and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$weight, BF$bodyfat)
+cor.test(BF$weight, BF$bodyfat)$p.value
+```
+
+**r = 0.61241369**
+They have a **moderate positive correlation**. This implies that the points of a scatterplot of both variables fall arround an increasing line. 
+Let's look at the plot.
+
+```{r}
+plot_ly(x=~BF$weight,y=~BF$bodyfat)%>%
+  add_markers()
+```
+
+When we proceed to how significant the correlation is:
+**p = 2.473306e-27**
+The p-value shows that there is a low probability of getting that value of r out of nowhere or randomly. Therefore, the correlation is **HIGHLY SIGNIFICANT**.
+
+# Height and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$height, BF$bodyfat)
+```
+**r = -0.08949576**
+This indicates that there is a **weak or almost no correlation**. The points are not likely to form a straight line. Although their correlation is inverse, it is too weak to say they do have. 
+Let's see how their plot is.
+
+```{r}
+plot_ly(x=~BF$height,y=~BF$bodyfat)%>%
+  add_markers()
+```
+
+**p = 0.1566**
+This p-value indicates that there is a **15.6%** probability of getting the same result for r even if they don't have any correlation at all, which is a high probabilty. As a result, we say that the correlation is **NOT SIGNIFICANT**.
+
+# Neck and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$neck, BF$bodyfat)
+cor.test(BF$neck, BF$bodyfat)$p.value
+```
+**r = 0.4905916**
+They have a **moderate positive correlation**. We expect the points to be clustered around an increasing straight line.
+Let's look at the plot.
+```{r}
+plot_ly(x=~BF$neck,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 1.147193e-16**
+This small value of p shows a **HIGHLY SIGNIFICANT** correlation between the two variables.
+
+# Chest and bodyfat: coefficient of correlation and significance level
+
+```{R}
+cor.test(BF$chest, BF$bodyfat)
+cor.test(BF$chest, BF$bodyfat)$p.value
+```
+**r = 0.7026199 **
+This value shows a **strong positive correlation**; therefore, we expect the points to be clustered around an increasing line. Let's have a look at it.
+
+```{r}
+plot_ly(x=~BF$chest,y=~BF$bodyfat)%>%
+  add_markers()
+```
+
+**p = 8.086637e-39**
+We have a small value of p, which is **8.086637e-39**. The probability of getting this correlation by chance or other factors is **8.086637e-39**. From this, we say that the correlation is **HIGHLY SIGNIFICANT**.
+
+# Abdomen and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$abdomen, BF$bodyfat)
+cor.test(BF$abdomen, BF$bodyfat)$p.value
+```
+**r = 0.8134321**
+From the r value above, we see that they have a **strong positive correlation**. 
+When we plot a scatterplot we expect points scatered arround an increasing straight line. Let's see what it looks like.
+
+```{r}
+plot_ly(x=~BF$abdomen,y=~BF$bodyfat)%>%
+  add_markers()
+```
+
+**p = 9.090812e-61**
+Therefore, the correlation is **HIGHLY SIGNIFICANT**.
+
+# Hip and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$hip, BF$bodyfat)
+cor.test(BF$hip, BF$bodyfat)$p.value
+```
+**r = 0.6252006**
+By just looking at the value of r, they have a **moderate positive correlation**.
+What will the scatter plot look like? we expect it to be a scatter around an increasing straight line.
+
+```{r}
+plot_ly(x=~BF$hip,y=~BF$bodyfat)%>%
+  add_markers()
+```
+
+**p = 9.819794e-29**
+Therefore, the correlation is **HIGHLY SIGNIFICANT**.
+
+# Thigh and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$thigh, BF$bodyfat)
+cor.test(BF$thigh, BF$bodyfat)$p.value
+```
+**r = 0.559607**
+This indicates a **moderate positive correlation** between the two variables.
+let's look at the scatterplot for better understanding.
+
+```{r}
+plot_ly(x=~BF$thigh,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 3.613232e-22**
+From this we can see that the correlation is **HIGHLY SIGNIFICANT**.
+
+# Knee and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$knee, BF$bodyfat)
+cor.test(BF$knee, BF$bodyfat)$p.value
+```
+**r = 0.5086648**, which implies a **moderate positive correlation**.
+So we expect a points moderately scattered around a line with positive slope.
+```{r}
+plot_ly(x=~BF$knee,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 5.465486e-18**
+We can say they have a **HIGHLY SIGNIFICANT** correlation.
+
+# Ankle and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$ankle, BF$bodyfat)
+```
+**r = 0.2659692**
+They have a **weak positive correlation**. This implies that their scatter plot is not going to be more clustered around the line.
+Let's check.
+
+```{r}
+plot_ly(x=~BF$ankle,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 1.882e-05**
+This means that we have a probabilty of 0.00001882 of getting this result because of causes other then the existence of a correlation between the variables, which is very small. Therefore, we can say that they have a **HIGHLY SIGNIFICANT** correlation.
+
+# Biceps and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$biceps, BF$bodyfat)
+cor.test(BF$biceps, BF$bodyfat)$p.value
+```
+**r = 0.4932709**
+This implies the existence of **moderate positive correlation** between the variables biceps and bodyfat. Their scatterplot looks like the following:
+```{r}
+plot_ly(x=~BF$biceps,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 7.388365e-17**
+p has a very small value, which talls a **HIGHLY SIGNIFICANT** correlation.
+
+# Forearm and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$forearm, BF$bodyfat)
+```
+**r = 0.3613863**
+This indicates an existence of **moderate positive correlation** between the two variables. Let's look at the scatterplot.
+```{r}
+plot_ly(x=~BF$forearm,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 3.437e-09**
+Here, we have a small probabilty of getting the r value out of unexpected reasons; therefore, we can say that they have a **HIGHLY SIGNIFICANT** correlation.
+
+# Wrist and bodyfat: coefficient of correlation and significance level
+
+```{r}
+cor.test(BF$wrist, BF$bodyfat)
+```
+**r = 0.3465744**
+We can say that they have a **moderate positive correlation**. Let's look at the scatterplot.
+```{r}
+plot_ly(x=~BF$wrist,y=~BF$bodyfat)%>%
+  add_markers()
+```
+**p = 1.6e-08**
+Our P-value has a small value; therefore, we can say that they have a **HIGHLY SIGNIFICANT** correlation.
+
+# Regression analysis
+
+From the correlation analysis done in number one, we can see that the variable with the most significant correlation with bodyfat is **abdomen**. Surprisingly, it is also the one with the strongest linear correlation. Therefore, for our regression model, we are going to use the circumference of abdomen to predict the percentage of body fat.
+ 
+```{r}
+library(ggplot2)
+ggplot(data = BF, aes(x = abdomen,y = bodyfat)) + geom_point() + geom_smooth(method = "lm")
+```
+From the plot above, we can say that the points are located around the best line of fit; therefore, there is a strong correlation between the variables, bodyfat and abdomen. Since the best line of fit has a positive slope, they are diractly correlated. 
+```{r}
+cor.test(BF$abdomen, BF$bodyfat)$p.value
+```
+If we look at the p-value: we have a p-value of 9.090812e-61 which is very small. From this, the p-value indicates the likelihood of observing the test results while the null hypothesis is true is very improbable. That's why we are saying they have a significant correlation. 
+
+**To help us understand how negligible the likelihood of observing the test results while the null hypothesis is true, let's write p-value using decimal points:**
+**p-value = 0.0000000000000000000000000000000000000000000000000000000000009090812**
+
+```{r}
+model <- lm(bodyfat ~ abdomen, data = BF)
+summary(model)
+```
+
+From the summary displayed above, we can see that the y-intercept of our model is **-0.39280** and we have the slope value of **0.63130**, which is the coefficient of abdomen. Therefore, the equation of our prediction model is: 
+**predicted bodyfat  = 0.63130 * abdomen  - 0.39280**
+ 
+ In a simple English, our model calculates percentage of body fat by multiplying circumference of abdomen in Centimeters divided by 100 with 0.63130 and, finally, subtracting 0.39280.
+
+```{r}
+predictions <- predict(model, newdata = BF)
+head(predictions, 10)
+```
+The above values are the first 10 predicted values of body fat percentage for the first 10 observed values of abdomen circumference in the BF dataset and the values below are the first 10 data from the BF dataset.
+
+```{r}
+head(BF, 10)
+```
+The predicted value for the first observation in the BF dataset is calculated as follows: 
+predicted bodyfat  = 0.63130 * abdomen  - 0.39280
+we substititute 0.852 in abdomen( the value of abdomen for the 1st variable is 0.852)
+
+```{r}
+predicted_bodyfat = 0.63130 * 0.852  - 0.39280
+predicted_bodyfat
+```
+The measured value of bodyfat of the first observation is 0.123(From the output for the first 10 observations) which is close to our prediction.
+
+From the given example, a person with 0.852	Metre circumference of abdomen is predicted to have a percentage body fat of 0.1450676 by our model while the recorded value is showing a measured value of 0.123 which is close enough to say our model's prediction is good.
+
+# Strengths
+
+**Acceptability of the trend from a biological perspective**: It makes sense for everyone to accept the model because as circumference of abdomen increases body fat increases.
+
+**Easy way of body fat percentage approximation**: measuring body fat percentage contains complex calculations and hectic processes like measuring weight under water, but our model can give a good approximation of it by only measuring circumference of abdomen. 
+
+# Limitations
+
+**Negative approximation**: our model predicts a negative percentage of body fat for people with abdomen circumference of less than 0.6222081419 Meter, which is not sensible approximation.
+our model has the following equation: 
+**predicted bodyfat  = 0.63130 * abdomen  - 0.39280**
+This equation returns 0 for abdomen circumference of 0.6222081419 Meter. It predicts the percentage body fat of a person with abdomen circumference of below it.
+
+**Unreal approximations**: some approximations are far from the actual measured values of body fat percentage.
+
+**Incomprehensible Y-intercept**: We can't understand what the y-intercept of our model indicates. It's a negative value and at the same time the value for abdomen circumference can't be zero.
+
+# Practical implications
+
+Its easy way of determining the body fat percentage of a people without having to weigh them underwater and without having to make complex calculations makes it practical.
+
+# ***Thank You***
