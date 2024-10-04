@@ -1,0 +1,152 @@
+---
+title: "Quiz 2"
+author: "Samuel Abrha Gebremariam"
+date: "2024-02-08"
+output: html_document
+---
+```{r}
+# Loading important libraries
+library(dplyr)
+library(tidyverse)
+library(psych)
+library(ggplot2)
+library(modeest)
+# Loading the diamonds dataset
+data("diamonds")
+```
+
+```{r results='hide'}
+# Looking at the structure and variables of the dataset.
+str(diamonds)
+# Getting an overall description of the data.
+?diamonds
+```
+```{r}
+# Getting the type of data structure of the diamonds dataset.
+class(diamonds)
+```
+
+# Data structure and variables
+
+The diamonds dataset provided in the tidyverse package is a dataframe that contains descriptions of different aspects of 53,940 diamonds. The descriptions of the pieces of diamonds are 10, including price, carat, cut, color, clarity, x, y, z, depth, and table. The dataframe, as a result, contains 53,940 observations of 10 variables. While the number of observations, which is equivalent to the number of pieces of diamonds, is the number of rows of our dataframe, the number of variables, which is a number of the measurable aspects we are interested in, is the number of columns of our dataframe.
+
+## Price
+The variable price is a numeric type, specifically integer. It provides the price of the piece in USD (United States Dollars). It is in the range of 326-18,823 USD, which means out of the 53,940 pieces of diamonds, the cheapest has a price of 326 USD and the most expensive is worth 18,823 USD. 
+
+## Carat
+carat is the measurement of the weight of the diamonds. In the diamonds dataframe, it is a numeric variable that ranges from 0.2 upto 5.1. The unit carat is equivalent to 200 Milligrams or 0.2 Grams. Therefore, the weights of the pieces of diamonds range from 40 Milligrams to 1.02 Grams.
+
+## Cut
+cut is a factor whose levels are ordered. In other words, it is an ordinal factor. Each piece of diamond has its own way of cutting. Some of them are cut beautifully and some are not attractive. some may have similar cut styles hence they fall under the same category while others are different. As a result, the cut variable stores the categories of all the pieces of diamonds based on the quality of their cut, starting from "Fair" all the way to "Ideal". It has five distinct levels, Fair, Good, Very good, Premium, and ideal. The worst pieces fall under the "Fair" level and the best ones under the "Ideal" level.
+
+## Color
+The color variable is also an ordinal variable. It stores the colors of the pieces of diamonds in a hierarchical manner. Its levels, in a decreasing significance, are the following: D > E > F > G > H > I > J. Based on this, the ones with best color will fall under the "D" level while the worst pieces fall under the "J" category.
+
+## Clarity
+Clarity is an ordinal factor with 8 levels for the measurement of how clear the diamond is. It includes the levels I1 < SI2 < SI1 < VS2 < VS1 < VVS2 < VVS1 < IF. Based on the hierarchy given above, the diamond with the lowest clarity falls under the "I1"
+level and the one with the highest will have a clarity of "IF" level. 
+
+## X
+X is a numeric variable which contains floating point values for the length of the diamonds in Millimetres. It ranges from 0 to 10.74 Millimetres. The variable contains floating point numbers because length is most of the time described using decimals.
+
+## Y
+The variable Y stores numerical measurments of width of each piece of diamond in a floating points format. It ranges from the lowest value which is 0 to the highest value of 58.9 Millimetres.
+
+## Z
+Z is a numerical variable that measures the depths of each diamond in Millimetres. It has a stored values that range from 0 to 31.8 Millimetres.
+
+## Depth
+This variable stores numerical values of an integer type. It is the measure of the total depth percentage. It is derived from the variables X, Y, and Z using the following formula:
+           depth = Zn / mean(X, Y) 
+                 = Zn / ((Xn + Yn)/2)
+                 = 2 * Zn / (Xn + Yn)
+                 (Where "Xn" is the length of the nth diamond, "Yn" is the width of                     the nth diamond, "Zn" is the width of the nth diamond, and "depth"                    is the total width percentage of the nth diamond)
+
+## Table 
+table is a numerical variable of type integer. It is the measurement of the width of the top of the diamond relative to widest point. Its values range from 43 upto 95. Note that this variable doesn't have any unit since it is a ratio of two measurements of the same unit.
+
+# Descriptive summary 
+
+```{r warning=FALSE}
+diamonds %>% 
+  group_by(cut, clarity) %>%
+  summarize(Mean = mean(price), 
+            Median = median(price), 
+            Mode = mfv(price), 
+            STD = sd(price), 
+            Min = min(price),
+            Max = max(price))
+```
+
+```{r warning=FALSE}
+diamonds %>% 
+  group_by(cut, clarity) %>%
+  summarize(Mean = mean(carat),
+            Median = median(carat), 
+            Mode = mfv(carat), 
+            STD = sd(carat), 
+            Min = min(carat),
+            Max = max(carat))
+```
+
+```{r warning=FALSE}
+diamonds %>% 
+  group_by(cut, clarity) %>%
+summarize(Mean = mean(y),
+            Median = median(y), 
+            Mode = mfv(y), 
+            STD = sd(y), 
+            Min = min(y),
+            Max = max(y))
+```
+
+```{r warning=FALSE}
+diamonds %>% 
+  group_by(cut, clarity) %>%
+summarize(Mean = mean(z),
+            Median = median(z), 
+            Mode = mfv(z), 
+            STD = sd(z), 
+            Min = min(z),
+            Max = max(z))
+```
+
+# Visualization
+
+```{r}
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+```
+From the graph above, we see that the price of diamonds which have the same weight are ranging from almost the lowest to the highest. Therefore, carat is not really affecting the price of the diamonds.
+
+```{r}
+ggplot(diamonds, aes(x=cut, y=mean(price))) + geom_col()
+```
+
+From the above graph, we can see that the mean price of the diamonds increases when we go from Fair to the Ideal. This shows that price and cut quality have a direct relationship.
+
+```{r}
+ggplot(diamonds, aes(x=color, y=mean(price))) + geom_col()
+```
+
+As shown in the figure above, we can't say that color and price have a defined relationship because we can see that the price is higher in the middle but lower on both sides. We hypothesize that the other features play a higher role in determining the price of the diamonds.
+
+```{r}
+ggplot(diamonds, aes(x=clarity, y=mean(price))) + geom_col()
+```
+
+from the graph above, the clarity of the diamonds is not affecting the price because the best diamonds in terms of clarity are having low prices. Therefore we can say that clarity doesn't play a significant role in determining the price. 
+
+
+# Differences based on cut and clarity
+
+```{r}
+ggplot(diamonds, aes(x=clarity, y = mean(price))) + geom_col()
+```
+
+As we can see from the above graph, I am using the mean price as the y-axis of the graph because if I use the total price, the price will be affected by the number of diamonds in respective levels, not only by the clarity. Eventhough I am doing it that way, I am not getting a defined pattern between them. therefore, they don't have a defined relation. 
+
+```{r}
+ggplot(diamonds, aes(x=cut, y = mean(price))) + geom_col()
+```
+As we can see from the above graph, I am using the mean price as the y-axis of the graph because if I use the total price, the price will be affected by the number of diamonds in respective levels, not only by the cut quality. I am getting a defined pattern between them. therefore, they have a defined relation, which is direct.
+
