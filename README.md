@@ -78,6 +78,11 @@ plot_ly(x = ~BF$weight, y = ~BF$bodyfat) %>%
 - All significant correlations have been identified and visualized using scatter plots.
 - A linear regression model is also fitted to predict body fat percentage using abdomen circumference.
 
+## Files included
+
+1. Body_Fat_Analysis_using_Penrose_Body_Fat_Dataset.Rmd: RMarkdown file containing the code and analysis for the body fat percentage project.
+2. Body_Fat_Analysis_using_Penrose_Body_Fat_Dataset.html: HTML output of the analysis, generated from the RMarkdown file.
+
 ## Conclusion
 
 This project provides insights into how body measurements correlate with body fat percentage. It emphasizes the importance of abdomen circumference as a predictor of body fat and illustrates the use of correlation and regression analysis in physiological data interpretation.
